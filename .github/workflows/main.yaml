@@ -5,61 +5,17 @@ on:
     branches:
       - main
 jobs:
-  build-test:
-    name: "Build Test Job"
-
+  somabot:
+    name: "소마 봇으로 메시지 보내기"
     runs-on: ubuntu-latest
-
     steps:
-      - name: Hello World
+      - name: Send message to Webex space
         shell: bash
         run: |
-          echo "Hello World"
-  dev:
-    name: "Dev Job"
-    needs:
-      - build-test
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello World
-        shell: bash
-        run: |
-          echo "Hello World"
-  test_1:
-    name: "Test_1 Job"
-    needs:
-      - dev
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello World
-        shell: bash
-        run: |
-          echo "Hello World"
-  test_2:
-    name: "Test_2 Job"
-    needs:
-      - test_1
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello World
-        shell: bash
-        run: |
-          echo "Hello World"
-  prod:
-    name: "Production Job"
-    needs:
-      - test_2
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Hello World
-        shell: bash
-        run: |
-          echo "Hello World"
+          curl --location --request POST "https://webexapis.com/v1/messages" \
+          --header "Content-Type: application/json" \
+          --header "Authorization: Bearer ${{ secrets.WEBEX_TOKEN }}" \
+          --data-raw '{
+            "roomId": "${{ secrets.WEBEX_ROOM_ID }}",
+            "text": "깃헙 액션으로 메시지 보내기"
+          }'
