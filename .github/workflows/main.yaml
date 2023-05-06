@@ -1,0 +1,26 @@
+name: 'Basic'
+
+on:
+  push:
+    branches:
+    - main
+    - 'feature/*'
+    paths:
+    - src/**/*
+
+jobs:
+  build-test:
+    name: 'First Job'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say hello world 1
+        shell: bash
+        run: |
+          echo "Hello world from step 1"
+      - name: Say hello world 2
+        shell: pwsh
+        run: |
+          echo "Hello world from step 2"
+      
