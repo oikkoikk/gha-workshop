@@ -19,3 +19,9 @@ jobs:
             "roomId": "${{ secrets.WEBEX_ROOM_ID }}",
             "text": "깃헙 액션으로 메시지 보내기"
           }'
+      - name: Send message to Webex using pre-built action
+        uses: chrivand/action-webex-js@main
+        env:
+          WEBEX_TOKEN: ${{ secrets.WEBEX_TOKEN }}
+          WEBEX_ROOM_ID: ${{ secrets.WEBEX_ROOM_ID }}
+          MARKDOWN_MESSAGE: "#종준봇이 깃허브 액션을 지배한다."
