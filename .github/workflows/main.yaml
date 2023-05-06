@@ -1,14 +1,13 @@
-name: 'Basic'
+name: "Basic"
 
-on:
-  push
+on: push
 
 env:
   GLOBAL_VALUE: "This is a env variable from the GLOBAL level"
 
 jobs:
   first:
-    name: 'First Job'
+    name: "First Job"
 
     runs-on: ubuntu-latest
 
@@ -21,47 +20,19 @@ jobs:
         env:
           STEP_VALUE_1: "This is a env variable from the STEP level #1"
         run: |
-          echo "GLOBAL: $GLOBAL_VALUE"
-          echo "JOB_1: $JOB_VALUE_1"
-          echo "JOB_2: $JOB_VALUE_2"
-          echo "STEP_1: $STEP_VALUE_1"
-          echo "STEP_2: $STEP_VALUE_2"
+          generatedValue1=${echo $RANDOM}
+
+          echo "GEN_VALUE_1=$generatedValue1" >> $GITHUB_ENV
       - name: Say hello world 2
         shell: pwsh
         env:
           STEP_VALUE_2: "This is a env variable from the STEP level #2"
         run: |
-          echo "GLOBAL: $GLOBAL_VALUE"
-          echo "JOB_1: $JOB_VALUE_1"
-          echo "JOB_2: $JOB_VALUE_2"
-          echo "STEP_1: $STEP_VALUE_1"
-          echo "STEP_2: $STEP_VALUE_2"
-  second:
-    name: 'Second Job'
+          $generatedValue2=${Get-Random -Max 99999}
 
-    runs-on: ubuntu-latest
-
-    env:
-      JOB_VALUE_2: "This is a env variable from the JOB level #2"
-
-    steps:
-      - name: Say hello world 3
+          echo "GEN_VALUE_2=$generatedValue2" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Get Hello world values
         shell: bash
-        env:
-          STEP_VALUE_3: "This is a env variable from the STEP level #3"
         run: |
-          echo "GLOBAL: $GLOBAL_VALUE"
-          echo "JOB_1: $JOB_VALUE_1"
-          echo "JOB_2: $JOB_VALUE_2"
-          echo "STEP_3: $STEP_VALUE_3"
-          echo "STEP_4: $STEP_VALUE_4"
-      - name: Say hello world 4
-        shell: pwsh
-        env:
-          STEP_VALUE_4: "This is a env variable from the STEP level #4"
-        run: |
-          echo "GLOBAL: $env:GLOBAL_VALUE"
-          echo "JOB_1: ${{env.JOB_VALUE_1}}"
-          echo "JOB_2: $env:JOB_VALUE_2"
-          echo "STEP_3: $env:STEP_VALUE_3"
-          echo "STEP_4: $env:STEP_VALUE_4"
+          echo "GEN_VALUE_1: $GEN_VALUE_1"
+          echo "GEN_VALUE_2: ${{env.GEN_VALUE_2}}"
