@@ -20,7 +20,7 @@ jobs:
         env:
           STEP_VALUE_1: "This is a env variable from the STEP level #1"
         run: |
-          generatedValue1=${echo $RANDOM}
+          generatedValue1=$(echo $RANDOM)
 
           echo "GEN_VALUE_1=$generatedValue1" >> $GITHUB_ENV
       - name: Say hello world 2
@@ -28,7 +28,7 @@ jobs:
         env:
           STEP_VALUE_2: "This is a env variable from the STEP level #2"
         run: |
-          $generatedValue2=${Get-Random -Max 99999}
+          $generatedValue2=$(Get-Random -Max 99999)
 
           echo "GEN_VALUE_2=$generatedValue2" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Get Hello world values
