@@ -1,36 +1,65 @@
 name: "Basic"
 
-on: ['push', 'pull_request']
-
-env:
-  GLOBAL_VALUE: "This is a env variable from the GLOBAL level"
-
+on:
+  push:
+    branches:
+      - main
 jobs:
-  first:
-    if: github.event_name == 'pull_request'
-    name: "First Job"
+  build-test:
+    name: "Build Test Job"
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node: ['16.x', '18.x']
-
-    runs-on: ${{matrix.os}}
-
-    env:
-      JOB_VALUE_1: "This is a env variable from the JOB level #1"
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello from OS - ${{matrix.os}}
+      - name: Hello World
         shell: bash
         run: |
-          echo "Hello World from ${{matrix.os}}"
-      - name: Setup node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{matrix.node}}
-      - name: Run only on Ubuntu
-        if: matrix.os == 'ubuntu-latest'
+          echo "Hello World"
+  dev:
+    name: "Dev Job"
+    needs:
+      - build-test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World
         shell: bash
         run: |
-          echo "Hello from ${{matrix.os}}"
+          echo "Hello World"
+  test_1:
+    name: "Test_1 Job"
+    needs:
+      - dev
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World
+        shell: bash
+        run: |
+          echo "Hello World"
+  test_2:
+    name: "Test_2 Job"
+    needs:
+      - test_1
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World
+        shell: bash
+        run: |
+          echo "Hello World"
+  prod:
+    name: "Production Job"
+    needs:
+      - test_2
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World
+        shell: bash
+        run: |
+          echo "Hello World"
