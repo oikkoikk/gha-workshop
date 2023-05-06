@@ -45,3 +45,8 @@ jobs:
           } else {
             echo "GEN_VALUE_2 is not masked"
           }
+      - name: Get secrets
+        shell: pwsh
+        run: |
+          echo "MY_SECRETS: ${{ secrets.MY_SECRETS }}"
+
