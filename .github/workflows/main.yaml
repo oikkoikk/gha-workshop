@@ -1,12 +1,13 @@
 name: "Basic"
 
-on: push
+on: ['push', 'pull_request']
 
 env:
   GLOBAL_VALUE: "This is a env variable from the GLOBAL level"
 
 jobs:
   first:
+    if: github.event_name == 'pull_request'
     name: "First Job"
 
     strategy:
