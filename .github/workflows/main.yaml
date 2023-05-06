@@ -48,5 +48,5 @@ jobs:
       - name: Get secrets
         shell: pwsh
         run: |
-          echo "MY_SECRETS: ${{ secrets.MY_SECRETS }}"
+          echo "MY_SECRET: ${{ secrets.MY_SECRET }}"
 
