@@ -9,44 +9,17 @@ jobs:
   first:
     name: "First Job"
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{matrix.os}}
 
     env:
       JOB_VALUE_1: "This is a env variable from the JOB level #1"
 
     steps:
-      - name: Say hello world 1
-        id: step1
+      - name: Say Hello from OS - ${{matrix.os}}
         shell: bash
-        env:
-          STEP_VALUE_1: "This is a env variable from the STEP level #1"
         run: |
-          generatedValue1=$(echo $RANDOM)
-
-          echo "GEN_VALUE_1=$generatedValue1" >> $GITHUB_OUTPUT
-      - name: Say hello world 2
-        id: step2
-        shell: pwsh
-        env:
-          STEP_VALUE_2: "This is a env variable from the STEP level #2"
-        run: |
-          $generatedValue2="APIKEY"
-
-          echo "::add-mask::$generatedValue2"
-
-          echo "GEN_VALUE_2=$generatedValue2" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-      - name: Get Hello world values
-        shell: pwsh
-        run: |
-          echo "GEN_VALUE_1: ${{steps.step1.outputs.GEN_VALUE_1}}"
-          echo "GEN_VALUE_2: ${{steps.step2.outputs.GEN_VALUE_2}}"
-          if ("${{steps.step2.outputs.GEN_VALUE_2}}" -eq "APIKEY") {
-            echo "GEN_VALUE_2 is masked"
-          } else {
-            echo "GEN_VALUE_2 is not masked"
-          }
-      - name: Get secrets
-        shell: pwsh
-        run: |
-          echo "MY_SECRET: ${{ secrets.MY_SECRET }}"
-
+          echo "Hello World from ${{matrix.os}}"
