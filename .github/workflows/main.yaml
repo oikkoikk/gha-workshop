@@ -30,11 +30,18 @@ jobs:
         env:
           STEP_VALUE_2: "This is a env variable from the STEP level #2"
         run: |
-          $generatedValue2=$(Get-Random -Max 99999)
+          $generatedValue2="APIKEY"
+
+          echo "::add-mask::$generatedValue2"
 
           echo "GEN_VALUE_2=$generatedValue2" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
       - name: Get Hello world values
-        shell: bash
+        shell: pwsh
         run: |
           echo "GEN_VALUE_1: ${{steps.step1.outputs.GEN_VALUE_1}}"
           echo "GEN_VALUE_2: ${{steps.step2.outputs.GEN_VALUE_2}}"
+          if ("${{steps.step2.outputs.GEN_VALUE_2}}" -eq "APIKEY") {
+            echo "GEN_VALUE_2 is masked"
+          } else {
+            echo "GEN_VALUE_2 is not masked"
+          }
