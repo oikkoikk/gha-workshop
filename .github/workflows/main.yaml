@@ -23,6 +23,7 @@ jobs:
         run: |
           echo "GLOBAL: $GLOBAL_VALUE"
           echo "JOB_1: $JOB_VALUE_1"
+          echo "JOB_2: $JOB_VALUE_2"
           echo "STEP_1: $STEP_VALUE_1"
           echo "STEP_2: $STEP_VALUE_2"
       - name: Say hello world 2
@@ -32,6 +33,7 @@ jobs:
         run: |
           echo "GLOBAL: $GLOBAL_VALUE"
           echo "JOB_1: $JOB_VALUE_1"
+          echo "JOB_2: $JOB_VALUE_2"
           echo "STEP_1: $STEP_VALUE_1"
           echo "STEP_2: $STEP_VALUE_2"
   second:
@@ -49,6 +51,7 @@ jobs:
           STEP_VALUE_3: "This is a env variable from the STEP level #3"
         run: |
           echo "GLOBAL: $GLOBAL_VALUE"
+          echo "JOB_1: $JOB_VALUE_1"
           echo "JOB_2: $JOB_VALUE_2"
           echo "STEP_3: $STEP_VALUE_3"
           echo "STEP_4: $STEP_VALUE_4"
@@ -57,7 +60,8 @@ jobs:
         env:
           STEP_VALUE_4: "This is a env variable from the STEP level #4"
         run: |
-          echo "GLOBAL: $GLOBAL_VALUE"
-          echo "JOB_2: $JOB_VALUE_2"
-          echo "STEP_3: $STEP_VALUE_3"
-          echo "STEP_4: $STEP_VALUE_4"
+          echo "GLOBAL: $env:GLOBAL_VALUE"
+          echo "JOB_1: ${{env.JOB_VALUE_1}}"
+          echo "JOB_2: $env:JOB_VALUE_2"
+          echo "STEP_3: $env:STEP_VALUE_3"
+          echo "STEP_4: $env:STEP_VALUE_4"
